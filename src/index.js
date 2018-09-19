@@ -1,58 +1,43 @@
 // DO WHATEVER YOU WANT HERE
 const createEnumerableProperty = (count) => {return count;};
 
+const createNotEnumerableProperty = (count) => {
+                                                  Object.defineProperty(Object.prototype, count, {enumerable: false, value: 'value'});
+                                                  return count;
+                                               };
 
-
-const createNotEnumerableProperty = (count) => {Object.defineProperty(Object.prototype, count, {enumerable: false, value: 'value'}); return count;};
-
-
-
-
-const createProtoMagicObject = () => { let magicObj = new Function (); 
-                                       magicObj.__proto__=magicObj.prototype;
+const createProtoMagicObject = () => { 
+                                       let magicObj = new Function (); 
+                                       magicObj.__proto__ = magicObj.prototype;
                                        return magicObj; 
                                      };
 
-
-
-
-let n =0;
-const incrementor = () => {n++;  return incrementor;};
-incrementor.toString = incrementor.valueOf = () => n;
-
-
-
+let countBracket = 0;
+const incrementor = () => {
+                            countBracket++; 
+                            return incrementor;
+                          };
+incrementor.toString = incrementor.valueOf = () => countBracket;
 
 let score = 0;
 const asyncIncrementor = () => {
                                  return new Promise((resolve) => {
-                                 score++;
-                                 return resolve(score);
-                                 });
-};
+                                                       score++;
+                                                       return resolve(score);
+                                                    });
+                               };
 
-
-
-
-
-let count = 0;
-const createIncrementer = () => {
-    return {
-        next : () => {
-            return {value: ++count};
-        },
-
-        [Symbol.iterator]: function* () {
-            yield ++count;
-        }
-    }
-};
-
-
-
-
-
-
+const createIncrementer = function createIncrementer() {
+	                                                       let obj = {
+		                                                       value: 0,
+                                                           next: function() {
+                                                                              this.value = this.value + 1;
+                                                                              return this;
+                                                                            },
+		                                                       [Symbol.iterator]: function() {return this;}
+	                                                       };
+                                                         return obj;		
+                                                       };
 // return same argument not earlier than in one second, and not later, than in two
 const returnBackInSecond = (param) => {
     return new Promise((resolve) => {
@@ -62,33 +47,22 @@ const returnBackInSecond = (param) => {
     });
 };
 
-
-
-
-const getDeepPropertiesCount = (r) => {
-  let a = JSON.stringify(r);
-  let count = a.split('}').length - 2;
+const getDeepPropertiesCount = (obj) => {
+  let newObj = JSON.stringify(obj);
+  let count = newObj.split('}').length - 2;
   return count;
 };
 
-
-
-
 const createSerializedObject = () => {return null};
 
-
-
-
 // const toBuffer = () => {};
-const sortByProto = (massiv) => {
+const sortByProto = (array) => {
     function sort(first, second) {
-        return  first-second;
+      return first - second;
     }
-    massiv.sort(sort);
-    return (massiv);
+    array.sort(sort);
+    return (array);
 };
-
-
 
 exports.createEnumerableProperty = createEnumerableProperty;
 exports.createNotEnumerableProperty = createNotEnumerableProperty;
